@@ -1,0 +1,148 @@
+Controladores em s:
+
+>> CY = 11 + 2500*(100/(1+100/s))
+ 
+CY =
+ 
+250000/(100/s + 1) + 11
+ 
+>> CX = 0.0001 + 0.01*(100/(1+100/s))
+ 
+CX =
+ 
+1/(100/s + 1) + 1/10000
+ 
+>> CTHETA = 1000 + 5000*(100/(1+100/s))
+ 
+CTHETA =
+ 
+500000/(100/s + 1) + 1000
+
+Discretizando usando tustin
+
+ 
+>> T = sym('T')
+ 
+T =
+ 
+T
+ 
+>> s = 2*(z-1)/(z+1)
+
+ 
+>> subs(CX)
+ 
+ans =
+ 
+1/((100*T*(z + 1))/(2*z - 2) + 1) + 1/10000
+ 
+>> subs(CY)
+ 
+ans =
+ 
+250000/((100*T*(z + 1))/(2*z - 2) + 1) + 11
+ 
+>> subs(CTHETA)
+ 
+ans =
+ 
+500000/((100*T*(z + 1))/(2*z - 2) + 1) + 1000
+
+
+Com isso, é possível obter a equação dos controladores para diferentes períodos de amostragem
+
+Ex
+Cy para T = 1, 0.1, 0.01
+
+
+>> aux = 250000/((100*T*(z + 1))/(2*z - 2) + 1) + 11
+ 
+aux =
+ 
+250000/((100*T*(z + 1))/(2*z - 2) + 1) + 11
+ 
+>> T = 1
+
+T =
+
+     1
+
+>> subs(aux)
+ 
+ans =
+ 
+250000/((100*(z + 1))/(2*z - 2) + 1) + 11
+ 
+>> T = 2 
+
+T =
+
+     2
+
+>> subs(aux)
+ 
+ans =
+ 
+250000/((200*(z + 1))/(2*z - 2) + 1) + 11
+ 
+>> T = 1
+
+T =
+
+     1
+
+>> subs(aux)
+ 
+ans =
+ 
+250000/((100*(z + 1))/(2*z - 2) + 1) + 11
+ 
+>> T = 0.1
+
+T =
+
+    0.1000
+
+>> subs(aux)
+ 
+ans =
+ 
+250000/((10*(z + 1))/(2*z - 2) + 1) + 11
+ 
+>> T = 0.01
+
+T =
+
+    0.0100
+
+>> subs(aux)
+ 
+ans =
+ 
+250000/((z + 1)/(2*z - 2) + 1) + 11
+simplifyFraction(subs(aux))
+
+
+>>(500033*z - 500011)/(3*z - 1)
+
+estável para 0.01
+instável para 10
+qual valor aceitável ?
+
+repetir mesmo procedimento para X e Theta
+
+>> simplifyFraction(subs(CX))
+ 
+ans =
+ 
+(50*T + 10001*z + 50*T*z - 10001)/(10000*(50*T + z + 50*T*z - 1))
+ 
+>> aux = (50*T + 10001*z + 50*T*z - 10001)/(10000*(50*T + z + 50*T*z - 1))
+ 
+aux =
+ 
+(15001*z - 5001)/(50010000*z + 49990000)
+
+
+
+
